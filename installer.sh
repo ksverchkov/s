@@ -142,4 +142,15 @@ fi
 
 rm -rf /tmp/frp* && color_echo "green" "[2] Cleaned up temporary files" || color_echo "red" "[!] Error cleaning up temporary files" 
 
-color_echo "white" "Installation finished"
+color_echo "white" "Installation finished. Checking if successfully started..."
+
+sleep 5
+
+isrunning=$(systemctl status frpc | grep 'start' | grep 'success')
+if [ -z "${isrunning}" ]; then
+   color_echo "red" "Started not successfully"
+   systemctl status frpc
+else
+   color_echo "green" "Started successfully"
+   systemctl status frpc
+fi

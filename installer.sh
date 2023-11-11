@@ -32,6 +32,7 @@ color_echo() {
   esac
 }
 
+
 color_echo "white" "Hi, it is fInstaller."
 
 ARCH=$(dpkg --print-architecture)
@@ -62,7 +63,7 @@ then
 	color_echo "red" "Curl, wget, url, get are not installed. They are needed for installer to work. Continue with installation?" 
 	read -p "Continue with installation? [Y/n]" continuewithinstallation
 	if [ -z "${continuewithinstallation}" ]; then
-		apt install -y wget || apt install -y curl || echo "Can not install curl or wget! Install them to continue."
+		apt install -y wget || apt install -y curl || color_echo "red" "Can not install curl or wget! Install them to continue."
 		if which curl > /dev/null 2>&1; then
 		 dl="curl --fail --silent --connect-timeout 5 --max-time 10 --retry 1 -o"
 		 read="curl --fail --silent --connect-timeout 5 --max-time 10 --retry 1"
@@ -81,7 +82,7 @@ then
 		fi
 	else
 		if [ "${continuewithinstallation}" == "Y" ]; then
-			apt install -y wget || apt install -y curl || echo "Can not install curl or wget! Install them to continue."
+			apt install -y wget || apt install -y curl || color_echo "red" "Can not install curl or wget! Install them to continue."
 			if which curl > /dev/null 2>&1; then
 			 dl="curl --fail --silent --connect-timeout 5 --max-time 10 --retry 1 -o"
 			 read="curl --fail --silent --connect-timeout 5 --max-time 10 --retry 1"

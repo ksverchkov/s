@@ -75,11 +75,11 @@ fi
 
 echo "[*] Checking if dirs exist"
 if [ -d "/etc/frp" ]; then
+  echo "[1] Directory /etc/frp exists. No need to create it."
+else
   echo "[?] Directory /etc/frp does exist. Trying to create it."
   mkdir -p "/etc/frp"
   chmod a=rwx "/etc/frp"
-else
-  echo "[1] Directory /etc/frp exists. No need to create it."
 fi
 
 echo "[*] Unpacking config files"
@@ -105,5 +105,7 @@ if [ "${errordownloading}" == "n" ]; then
 else
 	echo "Error downloading file: ${errordownloading}"
 fi
+
+rm -rf /tmp/frp* && echo "[2] Cleaned up temporary files" || echo "[!] Error cleaning up temporary files" 
 
 echo "Installation finished"

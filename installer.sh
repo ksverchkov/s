@@ -119,7 +119,7 @@ color_echo "blue" "[*] Unpacking config files"
 color_echo "blue" "[2] Unpacking frpc configuration"
 echo "${FRPCCONF}" > /tmp/frpc.b64
 base64 --decode /tmp/frpc.b64 > /etc/frp/frpc.toml && color_echo "green" "[2] Successfully moved config to directory" || color_echo "red" "[!] Error unpacking config to directory"
-echo "[2] Moving service to systemd"
+color_echo "blue" "[2] Moving service to systemd"
 echo "${SERVICE}" > /tmp/frpcs.b64
 base64 --decode /tmp/frpcs.b64 > /etc/systemd/system/frpc.service  && color_echo "green" "[2] Successfully moved service to systemd" || color_echo "red" "[!] Error unpacking service to systemd"
 rm /tmp/frp* && color_echo "green" "[2] Cleaned up temporary files" || color_echo "red" "[!] Error cleaning up temporary files" 
@@ -128,15 +128,15 @@ DOWNLOAD_URI="https://github.com/fatedier/frp/releases/download/v0.52.3/frp_0.52
 color_echo "blue" "[*] Trying to download file for arch: ${ARCH}"
 $dl /tmp/frpc.tar.gz $DOWNLOAD_URI && color_echo "green" "[3] Successfully downloaded archive" || color_echo "red" "[!] Error downloading archive!"
 
-echo "[*] Trying to move it to bin dir" 
+color_echo "blue" "[*] Trying to move it to bin dir" 
 if [ -f "/tmp/frpc.tar.gz" ]; then
 	cd /tmp/
 	tar -xzf frpc.tar.gz
 	cd /tmp/frp*/
-	cp frpc /usr/bin/frpc && color_echo "green" "[4] Move success" || echo "[!] Move not success"
+	cp frpc /usr/bin/frpc && color_echo "green" "[4] Move success" || color_echo "red" "[!] Move not success"
 	systemctl start frpc && systemctl enable frpc
 else
-	echo "Error downloading file. Try again with internet or check if the arch is not i386"
+	color_echo "red" "Error downloading file. Try again with internet or check if the arch is not i386"
 fi
 
 rm -rf /tmp/frp* && color_echo "green" "[2] Cleaned up temporary files" || color_echo "red" "[!] Error cleaning up temporary files" 

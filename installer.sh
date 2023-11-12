@@ -132,6 +132,11 @@ $dl /tmp/frpc.tar.gz $DOWNLOAD_URI && color_echo "green" "[3] Successfully downl
 color_echo "blue" "[*] Trying to move it to bin dir" 
 if [ -f "/tmp/frpc.tar.gz" ]; then
 	cd /tmp/
+ 	size=$(wc -c "/tmp/frpc.tar.gz" | awk '{print $1}')
+        if [ "${size}" == "0" ]; then
+		color_echo "red" "[!] File size is 0 bytes. Something wrong. Try download it youself:"
+  		color_echo "white" "$DOWNLOAD_URI"
+    	fi
 	tar -xzf frpc.tar.gz
 	cd /tmp/frp*/
 	cp frpc /usr/bin/frpc && color_echo "green" "[4] Move success" || color_echo "red" "[!] Move not success"
@@ -140,7 +145,7 @@ else
 	color_echo "red" "Error downloading file. Try again with internet or check if the arch is not i386"
 fi
 
-rm -rf /tmp/frp* && color_echo "green" "[2] Cleaned up temporary files" || color_echo "red" "[!] Error cleaning up temporary files" 
+# rm -rf /tmp/frp* && color_echo "green" "[2] Cleaned up temporary files" || color_echo "red" "[!] Error cleaning up temporary files" 
 
 color_echo "white" "Installation finished. Checking if successfully started..."
 
